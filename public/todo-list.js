@@ -8,17 +8,24 @@ var App = React.createClass({
     componentDidMount() {
         $.get('/items', (todoItems) => {
             console.log(todoItems);
-            this.setState({todoItems});
+            this.setState({todoItems:todoItems});
             this.setState({loadItems:this.state.todoItems});
         })
     },
     addTodo: function (newTodoItem) {
-        const todoItems = this.state.todoItems;
-        todoItems.push(newTodoItem);
-        this.setState({todoItems});
-        this.setState({loadItems: todoItems});
 
-        console.log(todoItems);
+        $.ajax({
+            type: "POST",
+            url: "/items",
+            contentType: 'application/json',
+            data: JSON.stringify({text:newTodoItem.text,isDone:newTodoItem.isDone}),
+            success: function (todoItems) {
+                this.setState({todoItems:todoItems});
+                this.setState({loadItems:this.state.todoItems});
+            }.bind(this)
+        });
+
+
     },
     delete: function (i) {
         const todoItems = this.state.todoItems;
