@@ -1,0 +1,18 @@
+#center {
+    width: 500px;
+    margin: 100px auto 0;
+}
+
+#title {
+    font-size: 50px;
+    color: #ff8476;
+    text-align: center;
+}
+
+
+#distance{
+    margin-top: 10px;
+}
+.distance1{
+    margin-left: 10px;
+}

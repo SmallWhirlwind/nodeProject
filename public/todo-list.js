@@ -8,8 +8,8 @@ var App = React.createClass({
     componentDidMount() {
         $.get('/items', (todoItems) => {
             console.log(todoItems);
-            this.setState({todoItems:todoItems});
-            this.setState({loadItems:this.state.todoItems});
+            this.setState({todoItems: todoItems});
+            this.setState({loadItems: this.state.todoItems});
         })
     },
     addTodo: function (newTodoItem) {
@@ -17,10 +17,10 @@ var App = React.createClass({
             type: "POST",
             url: "/items",
             contentType: 'application/json',
-            data: JSON.stringify({text:newTodoItem.text,isDone:newTodoItem.isDone}),
+            data: JSON.stringify({text: newTodoItem.text, isDone: newTodoItem.isDone}),
             success: function (todoItems) {
-                this.setState({todoItems:todoItems});
-                this.setState({loadItems:this.state.todoItems});
+                this.setState({todoItems: todoItems});
+                this.setState({loadItems: this.state.todoItems});
             }.bind(this)
         });
     },
@@ -29,10 +29,10 @@ var App = React.createClass({
             type: "DELETE",
             url: "/items",
             contentType: 'application/json',
-            data: JSON.stringify({index:i}),
+            data: JSON.stringify({index: i}),
             success: function (todoItems) {
-                this.setState({todoItems:todoItems});
-                this.setState({loadItems:this.state.todoItems});
+                this.setState({todoItems: todoItems});
+                this.setState({loadItems: this.state.todoItems});
             }.bind(this)
         });
     },
@@ -42,10 +42,10 @@ var App = React.createClass({
             type: "PUT",
             url: "/items",
             contentType: 'application/json',
-            data: JSON.stringify({index:i}),
+            data: JSON.stringify({index: i}),
             success: function (todoItems) {
-                this.setState({todoItems:todoItems});
-                this.setState({loadItems:this.state.todoItems});
+                this.setState({todoItems: todoItems});
+                this.setState({loadItems: this.state.todoItems});
             }.bind(this)
         });
     },
@@ -63,11 +63,12 @@ var App = React.createClass({
     },
     clearCompletedAll: function () {
         const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
-        this.setState({todoItems: clearCompletedItems,loadItems: this.state.todoItems});
+        this.setState({todoItems: clearCompletedItems, loadItems: this.state.todoItems});
     },
     render: function () {
         return (
-            <div>
+            <div id="center">
+                <p id="title">todos</p>
                 <TodoHeader addTodo={this.addTodo}/>
                 <TodoMain todoItems={this.state.loadItems} onDelete={this.delete}
                           change={this.change}/>
@@ -98,7 +99,8 @@ var TodoHeader = React.createClass({
     render: function () {
         return (
             <div>
-                <input onKeyUp={this.handlerKeyUp} type="text" placeholder="what's your task ?"/>
+                <input className="form-control" onKeyUp={this.handlerKeyUp} type="text"
+                       placeholder="what needs to be done ?"/>
             </div>
 
         )
@@ -117,13 +119,19 @@ var TodoMain = React.createClass({
 
     render: function () {
         const todoItems = this.props.todoItems.map((item, i)=> {
-            return <div key={i}>
-                <input type="checkbox" onClick={this.change.bind(this, i)}
+            return <div key={i} className="input-group  inline">
+                <input type="checkbox" id="distance" onClick={this.change.bind(this, i)}
                        checked={item.isDone}/>
-                {item.text}
-                <button onClick={this.delete.bind(this, i)}>X</button>
+                {item.isDone ? <s>{item.text}</s> : item.text}
+                <span className="input-group-btn">
+                 <button className="btn btn-danger inline" id="distance" onClick={this.delete.bind(this, i)}>
+                    <span className="glyphicon glyphicon-remove"/>
+                 </button>
+                </span>
+
             </div>
         });
+
         return (<div>{todoItems}</div>)
     }
 });
@@ -146,11 +154,12 @@ var TodoFooter = React.createClass({
         const activeItems = this.props.todoItems.filter(item=>item.isDone === false);
         return (
             <div>
-                <button>{activeItems.length}items left</button>
-                <button onClick={this.completed}>completed</button>
-                <button onClick={this.actived}>active</button>
-                <button onClick={this.all}>all</button>
-                <button onClick={this.clearCompletedAll}>clear Completed</button>
+                <br/>
+                <button className="btn btn-default distance1" >{activeItems.length}items left</button>
+                <button className="btn btn-primary distance1" onClick={this.completed}>completed</button>
+                <button className="btn btn-primary distance1" onClick={this.actived}>active</button>
+                <button className="btn btn-primary distance1" onClick={this.all}>all</button>
+                <button className="btn btn-primary distance1" onClick={this.clearCompletedAll}>clear Completed</button>
 
             </div>
 
