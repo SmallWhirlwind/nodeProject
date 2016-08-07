@@ -13,7 +13,6 @@ var App = React.createClass({
         })
     },
     addTodo: function (newTodoItem) {
-
         $.ajax({
             type: "POST",
             url: "/items",
@@ -24,14 +23,18 @@ var App = React.createClass({
                 this.setState({loadItems:this.state.todoItems});
             }.bind(this)
         });
-
-
     },
     delete: function (i) {
-        const todoItems = this.state.todoItems;
-        todoItems.splice(i, 1);
-        this.setState({loadItems: todoItems});
-
+        $.ajax({
+            type: "DELETE",
+            url: "/items",
+            contentType: 'application/json',
+            data: JSON.stringify({index:i}),
+            success: function (todoItems) {
+                this.setState({todoItems:todoItems});
+                this.setState({loadItems:this.state.todoItems});
+            }.bind(this)
+        });
     },
 
     change: function (i) {
