@@ -23,6 +23,7 @@ fs.stat('todo-items.json', function (err, stat, next) {
 app.use('/', require('./public/get-allItems'));
 app.use('/', require('./public/add-items'));
 app.use('/', require('./public/delete-items'));
+app.use('/', require('./public/put-items'));
 
 
 app.listen(8081, () => {

@@ -38,11 +38,16 @@ var App = React.createClass({
     },
 
     change: function (i) {
-        console.log("哈哈");
-        const item = this.state.todoItems[i];
-        item.isDone = !item.isDone;
-        this.setState({todoItems: this.state.todoItems});
-        this.setState({loadItems: this.state.todoItems});
+        $.ajax({
+            type: "PUT",
+            url: "/items",
+            contentType: 'application/json',
+            data: JSON.stringify({index:i}),
+            success: function (todoItems) {
+                this.setState({todoItems:todoItems});
+                this.setState({loadItems:this.state.todoItems});
+            }.bind(this)
+        });
     },
 
     completed: function () {
