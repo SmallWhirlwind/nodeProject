@@ -1,22 +1,67 @@
 var App = React.createClass({
-
     getInitialState: function () {
         return {
-            itemsTodo: []
+            todoItems: [],
+            aaa: [],
+            count:0
         }
     },
     addTodo: function (newTodoItem) {
-        const itemsTodo = this.state.itemsTodo;
-        itemsTodo.push(newTodoItem);
-        this.setState(itemsTodo);
-        console.log(itemsTodo);
+        const todoItems = this.state.todoItems;
+        todoItems.push(newTodoItem);
+        this.setState({todoItems});
+        this.setState({aaa: todoItems});
+        console.log(todoItems);
+    },
+    delete: function (i) {
+        const todoItems = this.state.todoItems;
+        todoItems.splice(i, 1);
+        this.setState({aaa: todoItems});
+
+        console.log(todoItems);
+    },
+
+    change: function (i) {
+        console.log("哈哈");
+        const item = this.state.todoItems[i];
+        item.isDone = !item.isDone;
+        this.setState({todoItems: this.state.todoItems});
+        this.setState({aaa: this.state.todoItems});
+
+
+    },
+
+    completed: function () {
+        const completed = this.state.todoItems.filter(item=>item.isDone === true);
+        this.setState({aaa: completed});
+    },
+    actived: function () {
+        const todoItems = this.state.todoItems.filter(item=>item.isDone === false);
+        this.setState({aaa: todoItems});
+        this.setState({count: this.state.aaa.length});
+
+        console.log(this.state.count);
+    },
+    all: function () {
+        this.setState({aaa: this.state.todoItems});
+    },
+    clearCompletedAll: function () {
+        const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
+        this.setState({todoItems: clearCompletedItems,aaa: this.state.todoItems});
+        // this.setState({aaa: this.state.todoItems});
     },
     render: function () {
         return (
             <div>
                 <TodoHeader addTodo={this.addTodo}/>
+                <TodoMain todoItems={this.state.aaa} onDelete={this.delete}
+                          change={this.change}/>
+                <TodoFooter todoItems={this.state.todoItems}
+                            onCompleted={this.completed}
+                            onActived={this.actived}
+                            onAll={this.all}
+                            onClearCompletedAll={this.clearCompletedAll}/>
             </div>
-
         )
     }
 });
@@ -27,7 +72,6 @@ var TodoHeader = React.createClass({
             let value = event.target.value;
 
             if (!value) return false;
-
             let newTodoItem = {
                 text: value,
                 isDone: false
@@ -36,15 +80,75 @@ var TodoHeader = React.createClass({
             this.props.addTodo(newTodoItem);
         }
     },
-
     render: function () {
         return (
             <div>
-                <input onKeyUp={this.handlerKeyUp.bind(this)} type="text" placeholder="what's your task ?"/>
+                <input onKeyUp={this.handlerKeyUp} type="text" placeholder="what's your task ?"/>
             </div>
 
         )
     }
 });
+
+var TodoMain = React.createClass({
+    change: function (i) {
+
+        this.props.change(i);
+    },
+
+    delete: function (i) {
+        this.props.onDelete(i);
+    },
+
+    render: function () {
+        const todoItems = this.props.todoItems.map((item, i)=> {
+            return <div key={i}>
+                <input type="checkbox" onClick={this.change.bind(this, i)}
+                       checked={item.isDone}/>
+                {item.text}
+                <button onClick={this.delete.bind(this, i)}>X</button>
+            </div>
+        });
+        return (<div>{todoItems}</div>)
+    }
+});
+var TodoFooter = React.createClass({
+    // getInitialState: function () {
+    //     return {count: 0}
+    // },
+
+    completed: function () {
+        this.props.onCompleted()
+    },
+    actived: function () {
+        this.props.onActived()
+    },
+    all: function () {
+        this.props.onAll();
+    },
+    // componentDidUpdate: function () {
+    //     const activeItems = this.props.todoItems.filter(item=>item.isDone === false);
+    //     console.log(activeItems.length)
+    //     this.setState({count:activeItems.length});
+    // },
+    clearCompletedAll: function () {
+        this.props.onClearCompletedAll();
+    },
+    render: function () {
+        return (
+            <div>
+                <button>{this.props.count}items left</button>
+                <button onClick={this.completed}>completed</button>
+                <button onClick={this.actived}>active</button>
+                <button onClick={this.all}>all</button>
+                <button onClick={this.clearCompletedAll}>clear Completed</button>
+
+
+            </div>
+
+        )
+    }
+});
+
 
 ReactDOM.render(<App/>, document.getElementById("content"));
