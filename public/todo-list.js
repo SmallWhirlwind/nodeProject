@@ -5,6 +5,13 @@ var App = React.createClass({
             loadItems: []
         }
     },
+    componentDidMount() {
+        $.get('/items', (todoItems) => {
+            console.log(todoItems);
+            this.setState({todoItems});
+            this.setState({loadItems:this.state.todoItems});
+        })
+    },
     addTodo: function (newTodoItem) {
         const todoItems = this.state.todoItems;
         todoItems.push(newTodoItem);

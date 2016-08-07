@@ -16,6 +16,7 @@ router.get('/items', function (req, res, next) {
         else {
             data = JSON.parse(data);
             res.status(200).json(data);
+            console.log(data);
         }
     });
 });
