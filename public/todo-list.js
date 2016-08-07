@@ -2,23 +2,22 @@ var App = React.createClass({
     getInitialState: function () {
         return {
             todoItems: [],
-            aaa: [],
-            count:0
+            loadItems: []
         }
     },
     addTodo: function (newTodoItem) {
         const todoItems = this.state.todoItems;
         todoItems.push(newTodoItem);
         this.setState({todoItems});
-        this.setState({aaa: todoItems});
+        this.setState({loadItems: todoItems});
+
         console.log(todoItems);
     },
     delete: function (i) {
         const todoItems = this.state.todoItems;
         todoItems.splice(i, 1);
-        this.setState({aaa: todoItems});
+        this.setState({loadItems: todoItems});
 
-        console.log(todoItems);
     },
 
     change: function (i) {
@@ -26,35 +25,29 @@ var App = React.createClass({
         const item = this.state.todoItems[i];
         item.isDone = !item.isDone;
         this.setState({todoItems: this.state.todoItems});
-        this.setState({aaa: this.state.todoItems});
-
-
+        this.setState({loadItems: this.state.todoItems});
     },
 
     completed: function () {
         const completed = this.state.todoItems.filter(item=>item.isDone === true);
-        this.setState({aaa: completed});
+        this.setState({loadItems: completed});
     },
     actived: function () {
-        const todoItems = this.state.todoItems.filter(item=>item.isDone === false);
-        this.setState({aaa: todoItems});
-        this.setState({count: this.state.aaa.length});
-
-        console.log(this.state.count);
+        const activeItems = this.state.todoItems.filter(item=>item.isDone === false);
+        this.setState({loadItems: activeItems});
     },
     all: function () {
-        this.setState({aaa: this.state.todoItems});
+        this.setState({loadItems: this.state.todoItems});
     },
     clearCompletedAll: function () {
         const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
-        this.setState({todoItems: clearCompletedItems,aaa: this.state.todoItems});
-        // this.setState({aaa: this.state.todoItems});
+        this.setState({todoItems: clearCompletedItems,loadItems: this.state.todoItems});
     },
     render: function () {
         return (
             <div>
                 <TodoHeader addTodo={this.addTodo}/>
-                <TodoMain todoItems={this.state.aaa} onDelete={this.delete}
+                <TodoMain todoItems={this.state.loadItems} onDelete={this.delete}
                           change={this.change}/>
                 <TodoFooter todoItems={this.state.todoItems}
                             onCompleted={this.completed}
@@ -113,9 +106,6 @@ var TodoMain = React.createClass({
     }
 });
 var TodoFooter = React.createClass({
-    // getInitialState: function () {
-    //     return {count: 0}
-    // },
 
     completed: function () {
         this.props.onCompleted()
@@ -126,23 +116,19 @@ var TodoFooter = React.createClass({
     all: function () {
         this.props.onAll();
     },
-    // componentDidUpdate: function () {
-    //     const activeItems = this.props.todoItems.filter(item=>item.isDone === false);
-    //     console.log(activeItems.length)
-    //     this.setState({count:activeItems.length});
-    // },
+
     clearCompletedAll: function () {
         this.props.onClearCompletedAll();
     },
     render: function () {
+        const activeItems = this.props.todoItems.filter(item=>item.isDone === false);
         return (
             <div>
-                <button>{this.props.count}items left</button>
+                <button>{activeItems.length}items left</button>
                 <button onClick={this.completed}>completed</button>
                 <button onClick={this.actived}>active</button>
                 <button onClick={this.all}>all</button>
                 <button onClick={this.clearCompletedAll}>clear Completed</button>
-
 
             </div>
 
