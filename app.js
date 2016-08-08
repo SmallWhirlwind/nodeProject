@@ -19,7 +19,6 @@ fs.stat('todo-items.json', function (err, stat, next) {
     }
 });
 
-
 app.use('/', require('./api/get-allItems'));
 app.use('/', require('./api/add-items'));
 app.use('/', require('./api/delete-items'));

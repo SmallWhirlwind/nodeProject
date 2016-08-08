@@ -62,12 +62,10 @@ var App = React.createClass({
     },
     clearCompletedAll: function () {
         console.log("hahaahhahaahah");
-        // const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
-        const todoItems = this.state.todoItems.filter(item=>item.isDone === false);
-        // const todoItems = this.state.todoItems.filter(item=>item.isDone === true);
-        // this.setState({todoItems: clearCompletedItems, loadItems: this.state.todoItems});
-        this.setState({loadItems:todoItems});
-        this.setState({todoItems:this.state.loadItems});
+        const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
+        this.setState({loadItems: clearCompletedItems}, function () {
+            this.setState({todoItems: this.state.loadItems});
+        });
     },
     render: function () {
         return (
@@ -159,7 +157,7 @@ var TodoFooter = React.createClass({
         return (
             <div>
                 <br/>
-                <button className="btn btn-default distance1" >{activeItems.length}items left</button>
+                <button className="btn btn-default distance1">{activeItems.length}items left</button>
                 <button className="btn btn-primary distance1" onClick={this.completed}>completed</button>
                 <button className="btn btn-primary distance1" onClick={this.actived}>active</button>
                 <button className="btn btn-primary distance1" onClick={this.all}>all</button>
