@@ -7,7 +7,6 @@ var App = React.createClass({
     },
     componentDidMount() {
         $.get('/items', (todoItems) => {
-            console.log(todoItems);
             this.setState({todoItems: todoItems});
             this.setState({loadItems: this.state.todoItems});
         })
@@ -62,8 +61,13 @@ var App = React.createClass({
         this.setState({loadItems: this.state.todoItems});
     },
     clearCompletedAll: function () {
-        const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
-        this.setState({todoItems: clearCompletedItems, loadItems: this.state.todoItems});
+        console.log("hahaahhahaahah");
+        // const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
+        const todoItems = this.state.todoItems.filter(item=>item.isDone === false);
+        // const todoItems = this.state.todoItems.filter(item=>item.isDone === true);
+        // this.setState({todoItems: clearCompletedItems, loadItems: this.state.todoItems});
+        this.setState({loadItems:todoItems});
+        this.setState({todoItems:this.state.loadItems});
     },
     render: function () {
         return (

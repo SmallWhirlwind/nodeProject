@@ -20,10 +20,10 @@ fs.stat('todo-items.json', function (err, stat, next) {
 });
 
 
-app.use('/', require('./public/get-allItems'));
-app.use('/', require('./public/add-items'));
-app.use('/', require('./public/delete-items'));
-app.use('/', require('./public/put-items'));
+app.use('/', require('./api/get-allItems'));
+app.use('/', require('./api/add-items'));
+app.use('/', require('./api/delete-items'));
+app.use('/', require('./api/put-items'));
 
 
 app.listen(8081, () => {

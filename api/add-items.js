@@ -14,7 +14,7 @@ router.post('/items', function (req, res, next) {
             }
             newData.push({text:req.body.text,isDone:req.body.isDone});
             fs.writeFile('./todo-items.json', JSON.stringify(newData), function (err) {
-                return;
+                // return;
             });
 
             res.status(200).json(newData);
