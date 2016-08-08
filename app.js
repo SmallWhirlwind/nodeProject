@@ -23,6 +23,7 @@ app.use('/', require('./api/get-allItems'));
 app.use('/', require('./api/add-items'));
 app.use('/', require('./api/delete-items'));
 app.use('/', require('./api/put-items'));
+app.use('/', require('./api/delete-all-compeleted-items'));
 
 
 app.listen(8081, () => {

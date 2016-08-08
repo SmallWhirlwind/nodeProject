@@ -60,13 +60,20 @@ var App = React.createClass({
     all: function () {
         this.setState({loadItems: this.state.todoItems});
     },
+
     clearCompletedAll: function () {
-        console.log("hahaahhahaahah");
-        const clearCompletedItems = this.state.todoItems.filter(item=>item.isDone === false);
-        this.setState({loadItems: clearCompletedItems}, function () {
-            this.setState({todoItems: this.state.loadItems});
+        $.ajax({
+            type: "DELETE",
+            url: "/completedItems",
+            contentType: 'application/json',
+            success: function (todoItems) {
+                this.setState({todoItems: todoItems},function () {
+                    this.setState({loadItems: this.state.todoItems});
+                });
+            }.bind(this)
         });
     },
+
     render: function () {
         return (
             <div id="center">
