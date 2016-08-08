@@ -3,7 +3,6 @@ var fs = require("fs");
 var router = express.Router();
 
 router.delete('/items', function (req, res, next) {
-
     fs.readFile('./todo-items.json', 'utf8', function (err, data) {
         if (err) {
             return;
@@ -19,7 +18,5 @@ router.delete('/items', function (req, res, next) {
         });
         res.status(200).json(newData);
     });
-
-
 });
 module.exports = router;

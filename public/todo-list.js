@@ -67,7 +67,7 @@ var App = React.createClass({
             url: "/completedItems",
             contentType: 'application/json',
             success: function (todoItems) {
-                this.setState({todoItems: todoItems},function () {
+                this.setState({todoItems: todoItems}, function () {
                     this.setState({loadItems: this.state.todoItems});
                 });
             }.bind(this)
