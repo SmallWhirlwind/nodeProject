@@ -6,20 +6,29 @@ var App = React.createClass({
         }
     },
     componentDidMount() {
-        $.get('/items', (todoItems) => {
-            this.setState({todoItems: todoItems});
-            this.setState({loadItems: this.state.todoItems});
-        })
+         console.log("hrsdjkzxredx");
+        // $.get('192.168.33.20:8081/java-jsp-jdbc-mysql-template/', (todoItems) => {
+        //     console.log(todoItems,'pppp');
+           
+        //     // this.setState({todoItems: todoItems});
+        //     // this.setState({loadItems: this.state.todoItems});
+        // })
     },
     addTodo: function (newTodoItem) {
+        console.log("hhuhuhuhuu");
         $.ajax({
-            type: "POST",
-            url: "/items",
-            contentType: 'application/json',
-            data: JSON.stringify({text: newTodoItem.text, isDone: newTodoItem.isDone}),
+            url: "http://192.168.33.20:8081/java-jsp-jdbc-mysql-template/",
+            type: "GET",
+            // headers: {
+            //         'Access-Control-Allow-Origin': '*'
+            // },
+            // contentType: 'application/json',
+            // data: JSON.stringify({text: newTodoItem.text, isDone: newTodoItem.isDone}),
             success: function (todoItems) {
-                this.setState({todoItems: todoItems});
-                this.setState({loadItems: this.state.todoItems});
+                console.log("woqunimabi");
+                console.log(todoItems);
+                // this.setState({todoItems: todoItems});
+                // this.setState({loadItems: this.state.todoItems});
             }.bind(this)
         });
     },
@@ -54,6 +63,7 @@ var App = React.createClass({
         this.setState({loadItems: completed});
     },
     actived: function () {
+         console.log("hrsdjkzxredx");
         const activeItems = this.state.todoItems.filter(item=>item.isDone === false);
         this.setState({loadItems: activeItems});
     },
